@@ -1,28 +1,31 @@
-Gradle Plugin Template
-======================
+Gradle Slash Plugin
+===================
 
-This is a template project of Gradle plugin with blank implementation.
+A Gradle plugin which introduces slash operator `/` as a path separator.
 
-[![Build Status](https://travis-ci.org/int128/gradle-plugin-blank.png)](https://travis-ci.org/int128/gradle-plugin-blank)
-
-
-Features
---------
-
-This contains following features:
-
-  * Blank implementation of the plugin (see [HelloPlugin.groovy](src/main/groovy/com/example/HelloPlugin.groovy))
-  * Testing with Spock (see [HelloPluginSpec.groovy](src/test/groovy/com/example/HelloPluginSpec.groovy))
-  * Wiring plugin name (see [hello.properties](src/main/resources/META-INF/gradle-plugins/hello.properties))
-  * Generating GroovyDoc JAR and sources JAR
-  * Publishing the plugin on [Bintray](https://bintray.com) and [Gradle Plugins](http://plugins.gradle.org)
-  * Continuous integration support on Travis CI
-  * Gradle Wrapper
-  * `.gitignore` for Gradle, IDEA and Eclipse
+[![Build Status](https://travis-ci.org/int128/gradle-slash.png)](https://travis-ci.org/int128/gradle-slash)
 
 
-Development
------------
+
+Getting Started
+---------------
+
+```groovy
+plugins {
+  id 'org.hidetake.slash' version '0.1'
+}
+
+println buildDir / 'tmp'
+```
+
+
+Contributions
+-------------
+
+This is an open source software licensed under the Apache License Version 2.0.
+Any issues or pull requests are welcome.
+
+### Development
 
 JDK 7 or later is required.
 Intellij IDEA is recommended.
@@ -57,9 +60,3 @@ Run the upload task with publishing version.
 ./gradlew -Pversion=x.y.z bintrayUpload
 ```
 
-
-Contributions
--------------
-
-This is an open source software licensed under the Apache License Version 2.0.
-Any issues or pull requests are welcome.
