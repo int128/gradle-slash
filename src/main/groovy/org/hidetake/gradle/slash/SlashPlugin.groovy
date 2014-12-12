@@ -6,6 +6,6 @@ import org.gradle.api.Project
 class SlashPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        // TODO
+        File.metaClass.mixin(PathCategory)
     }
 }
