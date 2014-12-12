@@ -1,11 +1,11 @@
 language: java
 jdk: oraclejdk7
 
-install:
-  - ./gradlew install
-script:
-  - ./gradlew check
+after_success:
+- test ${TRAVIS_TAG} && ./gradlew -Pversion=${TRAVIS_TAG#v} bintrayUpload
 
 env:
   global:
-    - TERM=dumb
+  - TERM=dumb
+  - secure: "mNJdsxZvscvwBqipDuaW3kMu5UE6Rnfj1Tq9cNsEuwHlJFVAlWRD/fo4B8n2M6ruea0vVDorgiwBpPYfudPLmuOZIR+me5xRO3c7UZSL8Dvmcj6lMdwP+24MXxxWhGs0MTQLi8mSSsUiKO+3OvF/TKYYfZ2pKAQYr8EWBOl4f2g="
+  - secure: "NgX/7yo+9cL9aMoGkijw60D5TQoYJtyjX7mqxDuvtSoApUfANMsVZgLHZWKs8N4DJyTJjPobaYVmfWqYR9dpuFfJIC3wczQ4gbFpG+D9sJz81NOa8ut0ie4UM6mKJYAN1eU1OUUqXwd2TEo6NdHfztMVGx3ymRHvgZcLlLL2yg8="
