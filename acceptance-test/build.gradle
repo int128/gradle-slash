@@ -1,0 +1,17 @@
+description 'Automated acceptance test with SSH server'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.hidetake:gradle-slash:$version"
+    }
+}
+
+apply plugin: 'org.hidetake.slash'
+
+task test << {
+    assert buildDir / 'tmp' == file("$buildDir/tmp")
+}
