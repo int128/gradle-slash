@@ -73,7 +73,7 @@ bintray {
         repo = 'maven'
         name = project.name
         version {
-            attributes = ['gradle-plugin': 'org.hidetake.slash:org.hidetake:gradle-slash']
+            attributes = ['gradle-plugin': "${project.property('gradle.plugin.id')}:${project.group}:${project.name}"]
         }
     }
 }
