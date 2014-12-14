@@ -47,11 +47,10 @@ Run the build task.
 
 Update metadata of the plugin in `gradle.properties`.
 
-You must have Bintray account and provide its credential in `~/.gradle/gradle.properties` as follows:
+You must have Bintray account and provide your credential in `~/.gradle/gradle.properties` as follows:
 
 ```ini
-bintrayUser=example
-bintrayKey=secret
+bintray.credential=user:apikey
 ```
 
 Run the upload task with publishing version.
