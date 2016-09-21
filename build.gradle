@@ -1,11 +1,10 @@
 plugins {
     id 'groovy'
-    id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.3.1'
+    id 'com.gradle.plugin-publish' version '0.9.6'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     jcenter()
@@ -14,77 +13,25 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude module: 'groovy-all'
     }
     testCompile 'cglib:cglib-nodep:3.1'
 }
 
-task javadocJar(type: Jar, dependsOn: groovydoc) {
-    from "${buildDir}/docs/groovydoc"
-    classifier = 'javadoc'
-}
+group = 'org.hidetake'
+version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
+pluginBundle {
+    website = 'https://github.com/int128/gradle-slash'
+    vcsUrl = 'https://github.com/int128/gradle-slash'
+    description = 'Introduce slash operator as a path separator'
+    tags = ['path', 'operator']
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            // Uncomment if you want to upload the plugin to Maven Central
-            //pom.withXml {
-            //    asNode().children().last() + {
-            //        resolveStrategy = DELEGATE_FIRST
-            //        name project.name
-            //        description project.description
-            //        url project.property('pom.url')
-            //        scm {
-            //            url project.property('pom.scm.url')
-            //            connection project.property('pom.scm.connection')
-            //        }
-            //        licenses {
-            //            license {
-            //                name project.property('pom.license.name')
-            //                url project.property('pom.license.url')
-            //                distribution 'repo'
-            //            }
-            //        }
-            //        developers {
-            //            developer {
-            //                id project.property('pom.developer.id')
-            //                name project.property('pom.developer.name')
-            //            }
-            //        }
-            //    }
-            //}
+    plugins {
+        slashPlugin {
+            id = 'org.hidetake.slash'
+            displayName = 'Gradle Slash Plugin'
         }
     }
 }
-
-bintray {
-    final String credential = project.hasProperty('bintray.credential') ?
-                              project.property('bintray.credential') : System.getenv('BINTRAY') ?: ''
-    user = credential.split(':').first()
-    key  = credential.split(':').last()
-    publications = ['maven']
-    pkg {
-        repo = 'maven'
-        name = project.name
-        version {
-            attributes = ['gradle-plugin': "${project.property('gradle.plugin.id')}:${project.group}:${project.name}"]
-        }
-    }
-}
-
-tasks.bintrayUpload.doFirst {
-    assert !project.version.contains('SNAPSHOT')
-}
-
-task install(dependsOn: 'publishMavenPublicationToMavenLocal') {
-}
-

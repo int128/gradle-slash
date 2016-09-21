@@ -1,19 +1,25 @@
-description 'Automated acceptance test with SSH server'
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+}
 
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-    dependencies {
-        classpath "org.hidetake:gradle-slash:$version"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
     }
 }
 
-apply plugin: 'org.hidetake.slash'
+gradlePlugin {
+    pluginSourceSet parent.sourceSets.main
+}
 
-task test << {
-    assert buildDir / 'tmp' == file("$buildDir/tmp")
-    assert projectDir / 'build' == buildDir
-    assert projectDir / 'build' / 'generated' == buildDir / 'generated'
+test {
+    systemProperty 'current.gradle.version', gradle.gradleVersion
 }

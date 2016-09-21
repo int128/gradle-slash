@@ -1,17 +1,12 @@
 language: java
-jdk: oraclejdk7
 
 install:
-- ./gradlew install
+- mkdir -p $HOME/.gradle
+- echo "gradle.publish.key=$GRADLE_PUBLISH_KEY" >> $HOME/.gradle/gradle.properties
+- echo "gradle.publish.secret=$GRADLE_PUBLISH_SECRET" >> $HOME/.gradle/gradle.properties
 
 script:
 - ./gradlew check
-- ./gradlew -p acceptance-test test
 
 after_success:
-- test ${TRAVIS_TAG} && ./gradlew -Pversion=${TRAVIS_TAG#v} bintrayUpload
-
-env:
-  global:
-  - TERM=dumb
-  - secure: "hKVLmKf5UIZLhPLwZ5foclOsmk2ziZgUTIKYZ9KsDx5kq82O9HztJaHB9cemoaE7PU1+mePaDdQ8s2kGTmLxRAk9VX1Pwb15Qr16MYv/0wOUml6CEB1Imf1Cf+rCIHaL48PPhzt543tuZkLZLU7VmfO5TYnKy53hxGxd73AasYI="
+- test ${TRAVIS_TAG} && ./gradlew publishPlugins

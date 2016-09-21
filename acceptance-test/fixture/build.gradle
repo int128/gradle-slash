@@ -1,0 +1,9 @@
+plugins {
+    id 'org.hidetake.slash'
+}
+
+task test << {
+    assert buildDir / 'tmp' == file("$buildDir/tmp")
+    assert projectDir / 'build' == buildDir
+    assert projectDir / 'build' / 'generated' == buildDir / 'generated'
+}
